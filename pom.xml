@@ -91,6 +91,15 @@
 					<echo>true</echo>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>com.heroku.sdk</groupId>
+				<artifactId>heroku-maven-plugin</artifactId>
+				<version>3.0.3</version>
+				<configuration>
+					<appName>daniel-help-desk</appName>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
