@@ -5,9 +5,9 @@ import java.util.Date;
 public abstract class Entity {
     private final String id;
     private final Date createdAt;
-    private final Date updatedAt;
+    private Date updatedAt;
     private final String createdBy;
-    private final String updatedBy;
+    private String updatedBy;
 
     public Entity(final String id, final Date createdAt, final String createdBy) {
         this.id = id;
@@ -35,5 +35,13 @@ public abstract class Entity {
 
     public String getUpdatedBy() {
         return updatedBy;
+    }
+
+    public void setUpdatedAt(final Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public void setUpdatedBy(final String updatedBy) {
+        this.updatedBy = updatedBy;
     }
 }
