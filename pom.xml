@@ -47,33 +47,27 @@
 			<version>2.13.3</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.glassfish.embedded/maven-embedded-glassfish-plugin -->
+		<!-- https://mvnrepository.com/artifact/org.glassfish.extras/glassfish-embedded-all -->
 		<dependency>
-			<groupId>org.glassfish.embedded</groupId>
-			<artifactId>maven-embedded-glassfish-plugin</artifactId>
-			<version>5.1</version>
+			<groupId>org.glassfish.extras</groupId>
+			<artifactId>glassfish-embedded-web</artifactId>
+			<version>3.2-b06</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>2.0.0-alpha7</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework</groupId>-->
+<!--			<artifactId>spring-jdbc</artifactId>-->
+<!--			<version>${spring.version}</version>-->
+<!--		</dependency>-->
 	</dependencies>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>glassfish-repository</id>
-			<name>Java.net Repository for Glassfish</name>
-			<url>http://download.java.net/maven/glassfish</url>
-			<layout>default</layout>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
 
 	<build>
 		<finalName>HelpDesk</finalName>
@@ -126,20 +120,6 @@
 				<version>3.0.3</version>
 				<configuration>
 					<appName>daniel-help-desk</appName>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.glassfish.embedded</groupId>
-				<artifactId>maven-embedded-glassfish-plugin</artifactId>
-				<version>5.1</version>
-
-				<configuration>
-					<name>${project.artifactId}</name>
-					<app>./target/${project.artifactId}.war</app>
-					<contextRoot>/</contextRoot>
-					<port>8080</port>
-					<autoDelete>true</autoDelete>
 				</configuration>
 			</plugin>
 		</plugins>
