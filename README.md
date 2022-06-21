@@ -8,14 +8,33 @@ Exemplo de solução de HelpDesk usando JavaEE com Glassfish
 mvn clean package
 ```
 
+### Executar projeto local (Java 1.8) - Execute a partir do terminal
+```bash
+mvn clean package exec:java -Dexec.mainClass="br.com.daniel.Application"
+```
+- A aplicação será iniciada na porta `8090`
+- É possível executar a aplicação pressionando o botão de `Run` (play de cor verde) na IDE na classe `Application.java`
+
 ### Deploy em servidor Glassfish (5.0 - JavaEE 8) local
 ```bash
-mvn glassfish:deploy
+mvn clean package glassfish:deploy
 ```
+
+### Atualizar aplicação em servidor Glassfish (5.0 - JavaEE 8) local
+```bash
+mvn clean package glassfish:redeploy
+```
+
+### Remove aplicação de servidor Glassfish (5.0 - JavaEE 8) local
+```bash
+mvn clean package glassfish:undeploy
+```
+
+#### PS: o deploy em um servidor a partir do maven não pode mudar o context base path, para isso, acesse o Admin do Glassfish em http://localhost:4848 ou acesse a aplicação a partir de http://localhost:8080/HelpDesk
 
 ### Deploy em servidor Heroku remoto
 ```bash
-mvn heroku:deploy-war
+heroku login && mvn clean package heroku:deploy-war
 ```
 
 Obs.: O deploy remoto só ocorre quando você tem o Heroku CLI instalado localmente e devidamente logado via `heroku login`. É possível trocar o nome da aplicação para deploy dentro de `pom.xml > build > plugins > plugin > heroku-maven-plugin > configuration > appName`, este nome é o prefixo disponível para o Heroku publico, exemplo: se appName for `teste-web-app`, o nome de dominio da aplicação será `teste-web-app.heroku.app`
