@@ -1,0 +1,12 @@
+CREATE TABLE users (
+    id VARCHAR(40) NOT NULL,
+    createdAt TIMESTAMP NOT NULL,
+    updatedAt TIMESTAMP NOT NULL,
+    createdBy VARCHAR(144) NOT NULL,
+    updatedBy VARCHAR(144) NOT NULL,
+
+    name VARCHAR(144) NOT NULL,
+    email VARCHAR(144) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+ALTER TABLE users ADD CONSTRAINT PK_users PRIMARY KEY (id);

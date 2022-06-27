@@ -13,7 +13,6 @@ import java.util.Optional;
 
 public class Application {
 
-    // Execute esse método a partir do Maven (JDK 1.8), no terminal, conforme instruções no arquivo README.md
     public static void main(String[] args) throws LifecycleException, ServletException {
         final Tomcat server = new Tomcat();
 
