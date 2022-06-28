@@ -1,6 +1,7 @@
 package br.com.daniel.domain;
 
 import java.util.Date;
+import java.util.UUID;
 
 public abstract class Entity {
     private final String id;
@@ -15,6 +16,10 @@ public abstract class Entity {
         this.updatedAt = createdAt;
         this.createdBy = createdBy;
         this.updatedBy = createdBy;
+    }
+
+    public Entity(final String createdBy) {
+        this(UUID.randomUUID().toString(), new Date(), createdBy);
     }
 
     public String getId() {

@@ -77,3 +77,62 @@ Obs.: O deploy remoto só ocorre quando você tem o Heroku CLI instalado localme
 #### O sistema se trata de um modelo de Help Desk onde as principais funcionalidades são sobre atendimento de chamados criados por um usuário padrão e um usuário atendente os movimenta incluindo recursos e determinando seu status.
 
 #### O status de um chamado pode ser "aberto", "iniciado", "em atendimento", "pendente de ação do cliente", "pendente de ação do atendente", "finalizado" e "arquivado"
+
+---
+
+## Diagrama de Classes
+
+```mermaid
+classDiagram
+class Entity {
+    -String id
+    -Date createdAt
+    -Date updatedAt
+    -String createdBy
+    -String updatedBy
+
+    +Entity(String id, Date createdAt, String createdBy)
+
+    +Entity(String createdBy)
+
+    +getId() String
+
+    +getCreatedAt() Date
+
+    +getUpdatedAt() Date
+
+    +getCreatedBy() String
+
+    +getUpdatedBy() String
+
+    +setUpdatedAt(Date updatedAt)
+
+    +setUpdatedBy(String updatedBy)
+}
+<<abstract>> Entity
+
+class User {
+    -String name
+    -String email
+    -String password
+
+    +User(String id, Date createdAt, String createdBy)
+
+    +User(String createdBy)
+
+    +getName() String
+
+    +setName(String name)
+
+    +getEmail() String
+
+    +setEmail(String email)
+
+    +getPassword() String
+
+    +setPassword(String password)
+}
+
+User ..|> Entity
+
+```

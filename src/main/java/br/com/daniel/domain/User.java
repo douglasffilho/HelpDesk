@@ -11,6 +11,10 @@ public class User extends Entity {
         super(id, createdAt, createdBy);
     }
 
+    public User(final String createdBy) {
+        super(createdBy);
+    }
+
     public String getName() {
         return name;
     }
