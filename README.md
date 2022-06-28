@@ -80,7 +80,7 @@ Obs.: O deploy remoto só ocorre quando você tem o Heroku CLI instalado localme
 
 ---
 
-## Diagrama de Classes
+## Diagrama de Classes de Entidade
 
 ```mermaid
 classDiagram
