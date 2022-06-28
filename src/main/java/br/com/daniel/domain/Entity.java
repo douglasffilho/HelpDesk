@@ -49,4 +49,19 @@ public abstract class Entity {
     public void setUpdatedBy(final String updatedBy) {
         this.updatedBy = updatedBy;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+
+        Entity entity = (Entity) o;
+
+        return this.id.equals(entity.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.id.hashCode();
+    }
 }

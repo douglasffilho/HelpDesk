@@ -133,6 +133,29 @@ class User {
     +setPassword(String password)
 }
 
-User ..|> Entity
+class Role {
+    -String role;
+
+    +Role(String id, Date createdAt, String createdBy, String role)
+
+    +Role(String createdBy, String role)
+
+    +getRole() String
+}
+
+class UserPrincipal {
+    -Set~Role~ roles
+
+    +UserPrincipal(String id, Date createdAt, String createdBy, Set~Role~ roles)
+
+    +UserPrincipal(String createdBy, Set~Role~ roles)
+
+    +getRoles() Set~Role~
+}
+
+Entity <|.. User
+Entity <|.. Role
+User <|-- UserPrincipal
+Role *-- UserPrincipal
 
 ```
