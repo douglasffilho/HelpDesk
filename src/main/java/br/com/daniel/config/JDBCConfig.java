@@ -23,7 +23,9 @@ public class JDBCConfig {
                 .setType(EmbeddedDatabaseType.H2)
                 .setName(Configs.DATABASE)
                 .addScript("classpath:jdbc/schema.sql")
-                .addScript("classpath:jdbc/init-data.sql")
+                .addScript("classpath:jdbc/init-users-data.sql")
+                .addScript("classpath:jdbc/init-roles-data.sql")
+                .addScript("classpath:jdbc/init-users-roles-data.sql")
                 .build();
     }
 
