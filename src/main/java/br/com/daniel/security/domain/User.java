@@ -1,4 +1,6 @@
-package br.com.daniel.domain;
+package br.com.daniel.security.domain;
+
+import br.com.daniel.domain.Entity;
 
 import java.util.Date;
 

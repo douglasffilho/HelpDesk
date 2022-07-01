@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HelpDesk</title>
+<title>HelpDesk - PROIBIDO</title>
 </head>
 <body>
     <%@include file="includes/nav.jsp"%>
