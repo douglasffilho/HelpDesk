@@ -27,18 +27,7 @@
 </script>
 </head>
 <body>
-    <%
-        Object param = session.getAttribute("message");
-        if (param != null) {
-            %>
-                <div>
-                    <% String message = (String) param; %>
-                    <p style="color: red;"><%= message %></p>
-                </div>
-            <%
-        }
-    %>
-    <% session.removeAttribute("message"); %>
+    <%@include file="../includes/message.jsp"%>
     <%@include file="../includes/nav.jsp"%>
 	<div class="update-form">
 	    <form id="form" method="POST" action="/users/create">

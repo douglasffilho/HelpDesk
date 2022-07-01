@@ -3,20 +3,7 @@
 <%@ page import="br.com.daniel.security.domain.UserPrincipal" %>
 <%@ page import="br.com.daniel.security.permissions.ViewRoles" %>
 
-<%
-    Object loggedUser = session.getAttribute("principal");
-    if (loggedUser == null) {
-        response.sendRedirect("/login");
-        return;
-    }
-
-    UserPrincipal user = ((UserPrincipal) loggedUser);
-    Set<String> roles = user.listRoles();
-
-    boolean CAN_MANAGE_USERS = roles.containsAll(ViewRoles.USERS_ROOT_ROLES);
-    boolean CAN_MANAGE_REQUESTS = roles.containsAll(ViewRoles.SERVICE_DESK_ROOT_ROLES);
-    boolean IS_CLIENT = roles.containsAll(ViewRoles.CLIENT_ROOT_ROLES);
-%>
+<%@include file="logged_user.jsp"%>
 <nav>
     <ul>
         <li><a href="/">Home</a></li>
