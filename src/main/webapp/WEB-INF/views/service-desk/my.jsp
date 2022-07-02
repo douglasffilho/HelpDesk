@@ -8,6 +8,7 @@
 <body>
     <%@include file="../includes/nav.jsp"%>
     <%@include file="../includes/message.jsp"%>
-	<p>Meus Chamados</p>
+	<%String serviceDeskHeaderTitle="Meus Chamados";%>
+    <%@include file="header.jsp"%>
 </body>
 </html>

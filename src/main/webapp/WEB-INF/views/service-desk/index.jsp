@@ -3,11 +3,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>HelpDesk - Atendimento</title>
+<title>HelpDesk - Chamados</title>
 </head>
 <body>
     <%@include file="../includes/nav.jsp"%>
     <%@include file="../includes/message.jsp"%>
-	<p>Chamados</p>
+	<%String serviceDeskHeaderTitle="Chamados";%>
+    <%@include file="header.jsp"%>
 </body>
 </html>

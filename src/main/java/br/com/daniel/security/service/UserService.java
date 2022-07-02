@@ -29,7 +29,7 @@ public class UserService {
     public void login(final String email, final String password) {
         final UserPrincipal user = this.repository
                 .findByEmail(email)
-                .orElseThrow(() -> new UserPrincipalException("/login"));
+                .orElseThrow(UserPrincipalException::new);
 
         final String decodedPassword = Base64Utils.decode(password);
 
@@ -40,7 +40,7 @@ public class UserService {
             session.setAttribute("principal", user);
             session.setMaxInactiveInterval(THIRTY_MINUTES);
         } else
-            throw new UserPrincipalException("/login");
+            throw new UserPrincipalException();
     }
 
     public UserPrincipal findUserById(final String id) {
@@ -50,7 +50,7 @@ public class UserService {
     public boolean userExists(final UserPrincipal principal) {
         final UserPrincipal user = this.repository
                 .findByEmail(principal.getEmail())
-                .orElseThrow(() -> new UserPrincipalException("/login"));
+                .orElseThrow(UserPrincipalException::new);
 
         return user != null;
     }

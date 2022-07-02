@@ -19,7 +19,7 @@
 <title>HelpDesk - Cadastrar Usuário</title>
 <script>
     var submit = function() {
-        var senhaElement = document.getElementById("senha");
+        var senhaElement = document.getElementById("password");
         senhaElement.value = btoa(senhaElement.value);
 
         document.getElementById("form").submit();
@@ -29,11 +29,13 @@
 <body>
     <%@include file="../includes/message.jsp"%>
     <%@include file="../includes/nav.jsp"%>
+    <%String usersHeaderTitle="Cadastro de Usuário";%>
+    <%@include file="header.jsp"%>
 	<div class="update-form">
 	    <form id="form" method="POST" action="/users/create">
 	        <fieldset>
-                <label for="nome">Nome:</label>
-                <input type="text" placeholder="Nome" id="nome" name="nome" required />
+                <label for="name">Nome:</label>
+                <input type="text" placeholder="Nome" id="name" name="name" required />
 	        </fieldset>
 
             <fieldset>
@@ -42,8 +44,8 @@
 	        </fieldset>
 
             <fieldset>
-                <label for="senha">Senha:</label>
-                <input type="password" placeholder="Senha" id="senha" name="senha" required />
+                <label for="password">Senha:</label>
+                <input type="password" placeholder="Senha" id="password" name="password" required />
 	        </fieldset>
 
 	        <%

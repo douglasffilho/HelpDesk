@@ -1,25 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.Set" %>
-<%@ page import="br.com.daniel.security.domain.UserPrincipal" %>
 <%@ page import="br.com.daniel.security.permissions.ViewRoles" %>
 
-<%@include file="logged_user.jsp"%>
 <nav>
     <ul>
         <li><a href="/">Home</a></li>
-        <% if (CAN_MANAGE_USERS) {
+        <% if (ViewRoles.canManageUsers()) {
             %>
             <li><a href="/users">Gerenciar Usuários</a></li>
             <%
         } %>
-        <% if (CAN_MANAGE_REQUESTS) {
+        <% if (ViewRoles.canViewRequests()) {
             %>
-            <li><a href="/service-desk">Atendimento</a></li>
+            <li><a href="/requests">Chamados</a></li>
             <%
         } %>
-        <% if (IS_CLIENT) {
+        <% if (ViewRoles.canViewSelfRequests()) {
             %>
-            <li><a href="/service-desk/requests/my">Chamados</a></li>
+            <li><a href="/requests/my">Meus Chamados</a></li>
             <%
         } %>
         <li><a href="/logout">Logout</a></li>

@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="br.com.daniel.security.permissions.ViewRoles" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,17 +12,24 @@
     <%@include file="includes/message.jsp"%>
     <div class="main-menu">
         <%
-            if (CAN_MANAGE_REQUESTS) {
+            if (ViewRoles.canManageUsers()) {
                 %>
                     <div class="item">
-                        <a href="/service-desk">Chamados</a>
+                        <a href="/users">Usuários</a>
                     </div>
                 <%
             }
-            if (IS_CLIENT) {
+            if (ViewRoles.canViewRequests()) {
                 %>
                     <div class="item">
-                        <a href="/service-desk/requests/my">Meus Chamados</a>
+                        <a href="/requests">Chamados</a>
+                    </div>
+                <%
+            }
+            if (ViewRoles.canViewSelfRequests()) {
+                %>
+                    <div class="item">
+                        <a href="/requests/my">Meus Chamados</a>
                     </div>
                 <%
             }
