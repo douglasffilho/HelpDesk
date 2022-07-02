@@ -1,4 +1,4 @@
-package br.com.daniel.security.repository;
+package br.com.daniel.security.dao;
 
 import br.com.daniel.model.Response;
 import br.com.daniel.security.domain.Role;
@@ -12,28 +12,28 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
-public class UserPrincipalRepository {
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final UserRoleRepository userRoleRepository;
+public class UserPrincipalDAO {
+    private final UserDAO userDAO;
+    private final RoleDAO roleDAO;
+    private final UserRoleDAO userRoleDAO;
 
-    public UserPrincipalRepository(
-            final UserRepository userRepository,
-            final RoleRepository roleRepository,
-            final UserRoleRepository userRoleRepository
+    public UserPrincipalDAO(
+            final UserDAO userDAO,
+            final RoleDAO roleDAO,
+            final UserRoleDAO userRoleDAO
     ) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.userRoleRepository = userRoleRepository;
+        this.userDAO = userDAO;
+        this.roleDAO = roleDAO;
+        this.userRoleDAO = userRoleDAO;
     }
 
     public Optional<UserPrincipal> findByEmail(final String email) {
-        return this.userRepository.findByEmail(email)
+        return this.userDAO.findByEmail(email)
                 .map(user -> {
-                    final Set<UserRole> userRoles = this.userRoleRepository.findUserRolesByUserId(user.getId());
+                    final Set<UserRole> userRoles = this.userRoleDAO.findUserRolesByUserId(user.getId());
                     Set<Role> roles = new HashSet<>();
                     if (!userRoles.isEmpty())
-                        roles = this.roleRepository.findRolesByIdIn(userRoles
+                        roles = this.roleDAO.findRolesByIdIn(userRoles
                                 .stream()
                                 .map(UserRole::getRoleId)
                                 .collect(Collectors.toSet()));
@@ -42,12 +42,12 @@ public class UserPrincipalRepository {
     }
 
     public Optional<UserPrincipal> findById(final String id) {
-        return this.userRepository.findById(id)
+        return this.userDAO.findById(id)
                 .map(user -> {
-                    final Set<UserRole> userRoles = this.userRoleRepository.findUserRolesByUserId(user.getId());
+                    final Set<UserRole> userRoles = this.userRoleDAO.findUserRolesByUserId(user.getId());
                     Set<Role> roles = new HashSet<>();
                     if (!userRoles.isEmpty())
-                        roles = this.roleRepository.findRolesByIdIn(userRoles
+                        roles = this.roleDAO.findRolesByIdIn(userRoles
                                 .stream()
                                 .map(UserRole::getRoleId)
                                 .collect(Collectors.toSet()));
@@ -56,13 +56,13 @@ public class UserPrincipalRepository {
     }
 
     public Response<UserPrincipal> paginateAll(final int page, final int size) {
-        return this.userRepository.findAll(page, size)
+        return this.userDAO.findAll(page, size)
                 .map(
                         user -> {
-                            final Set<UserRole> userRoles = this.userRoleRepository.findUserRolesByUserId(user.getId());
+                            final Set<UserRole> userRoles = this.userRoleDAO.findUserRolesByUserId(user.getId());
                             Set<Role> roles = new HashSet<>();
                             if (!userRoles.isEmpty())
-                                roles = this.roleRepository.findRolesByIdIn(userRoles
+                                roles = this.roleDAO.findRolesByIdIn(userRoles
                                         .stream()
                                         .map(UserRole::getRoleId)
                                         .collect(Collectors.toSet()));
@@ -73,10 +73,10 @@ public class UserPrincipalRepository {
     }
 
     public void updateUser(final UserPrincipal user) {
-        this.userRepository.update(user);
-        this.userRepository.findById(user.getId()).ifPresent(updatedUser -> {
-            this.userRoleRepository.deleteByUserId(updatedUser.getId());
-            this.userRoleRepository.insertRolesForUserId(user
+        this.userDAO.update(user);
+        this.userDAO.findById(user.getId()).ifPresent(updatedUser -> {
+            this.userRoleDAO.deleteByUserId(updatedUser.getId());
+            this.userRoleDAO.insertRolesForUserId(user
                     .getRoles()
                     .stream()
                     .map(role -> new UserRole(updatedUser.getUpdatedBy(), updatedUser.getId(), role.getId()))
@@ -86,20 +86,20 @@ public class UserPrincipalRepository {
     }
 
     public int countAdmins() {
-        final Role admin = this.roleRepository.getAdminRole();
-        final Set<UserRole> userRoles = this.userRoleRepository.findAllByRoleId(admin.getId());
+        final Role admin = this.roleDAO.getAdminRole();
+        final Set<UserRole> userRoles = this.userRoleDAO.findAllByRoleId(admin.getId());
         final Set<String> usersIds = userRoles.stream().map(UserRole::getUserId).collect(Collectors.toSet());
         return usersIds.size();
     }
 
     public void deleteById(final String id) {
-        this.userRoleRepository.deleteByUserId(id);
-        this.userRepository.deleteById(id);
+        this.userRoleDAO.deleteByUserId(id);
+        this.userDAO.deleteById(id);
     }
 
     public void insertUser(final UserPrincipal user) {
-        this.userRepository.insert(user);
-        this.userRoleRepository.insertRolesForUserId(user
+        this.userDAO.insert(user);
+        this.userRoleDAO.insertRolesForUserId(user
                 .getRoles()
                 .stream()
                 .map(role -> new UserRole(user.getUpdatedBy(), user.getId(), role.getId()))

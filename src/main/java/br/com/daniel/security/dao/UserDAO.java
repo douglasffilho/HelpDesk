@@ -1,9 +1,9 @@
-package br.com.daniel.security.repository;
+package br.com.daniel.security.dao;
 
 import br.com.daniel.exception.UserUpdateException;
 import br.com.daniel.model.Response;
 import br.com.daniel.security.domain.User;
-import br.com.daniel.security.repository.statements.UserRepositoryStatements;
+import br.com.daniel.security.dao.statements.UserDAOStatements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -16,17 +16,17 @@ import java.util.stream.Collectors;
 
 
 @Repository
-public class UserRepository {
+public class UserDAO {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public UserRepository(final JdbcTemplate jdbcTemplate) {
+    public UserDAO(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public Optional<User> findByEmail(final String email) {
         final List<User> results = this.jdbcTemplate.query(
-                UserRepositoryStatements.SELECT_BY_EMAIL,
+                UserDAOStatements.SELECT_BY_EMAIL,
                 ps -> ps.setString(1, email),
                 (rs, rowNum) -> new User(
                         rs.getString("id"),
@@ -46,7 +46,7 @@ public class UserRepository {
 
     public Optional<User> findById(final String id) {
         final List<User> results = this.jdbcTemplate.query(
-                UserRepositoryStatements.SELECT_BY_ID,
+                UserDAOStatements.SELECT_BY_ID,
                 ps -> ps.setString(1, id),
                 (rs, rowNum) -> new User(
                         rs.getString("id"),
@@ -66,7 +66,7 @@ public class UserRepository {
 
     public Response<User> findAll(final int page, final int size) {
         final List<User> results = this.jdbcTemplate.query(
-                UserRepositoryStatements.PAGINATE_ALL,
+                UserDAOStatements.PAGINATE_ALL,
                 ps -> {
                     ps.setInt(1, size);
                     ps.setInt(2, (page - 1) * size);
@@ -83,7 +83,7 @@ public class UserRepository {
         );
 
         final long total = this.jdbcTemplate.query(
-                        UserRepositoryStatements.COUNT_ALL,
+                        UserDAOStatements.COUNT_ALL,
                         (rs, rowNum) -> rs.getLong(1)
                 ).stream()
                 .findFirst()
@@ -107,7 +107,7 @@ public class UserRepository {
                 .map(key -> String.format("%s=?", key))
                 .collect(Collectors.joining(","));
 
-        final String sql = String.format(UserRepositoryStatements.UPDATE, updatePattern);
+        final String sql = String.format(UserDAOStatements.UPDATE, updatePattern);
 
         try {
             final int updatedRows = this.jdbcTemplate.update(sql, ps -> {
@@ -136,7 +136,7 @@ public class UserRepository {
     public void deleteById(final String id) {
         try {
             final int updatedRows = this.jdbcTemplate.update(
-                    UserRepositoryStatements.DELETE_BY_ID,
+                    UserDAOStatements.DELETE_BY_ID,
                     ps -> ps.setString(1, id)
             );
             if (updatedRows < 1) throw new UserUpdateException("Nenhuma informação de usuário a deletar", "/users");
@@ -161,7 +161,7 @@ public class UserRepository {
         final String insertPattern = String.join(",", keys);
         final String valuesPattern = keys.stream().map(k -> "?").collect(Collectors.joining(","));
 
-        final String sql = String.format(UserRepositoryStatements.INSERT_NEW, insertPattern, valuesPattern);
+        final String sql = String.format(UserDAOStatements.INSERT_NEW, insertPattern, valuesPattern);
 
         try {
             final int updatedRows = this.jdbcTemplate.update(sql, ps -> {

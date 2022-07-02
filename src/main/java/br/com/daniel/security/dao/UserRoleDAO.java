@@ -1,8 +1,8 @@
-package br.com.daniel.security.repository;
+package br.com.daniel.security.dao;
 
 import br.com.daniel.exception.UserUpdateException;
 import br.com.daniel.security.model.UserRole;
-import br.com.daniel.security.repository.statements.UserRoleRepositoryStatements;
+import br.com.daniel.security.dao.statements.UserRoleDAOStatements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -14,17 +14,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
-public class UserRoleRepository {
+public class UserRoleDAO {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public UserRoleRepository(final JdbcTemplate jdbcTemplate) {
+    public UserRoleDAO(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public Set<UserRole> findUserRolesByUserId(final String userId) {
         final List<UserRole> results = this.jdbcTemplate.query(
-                UserRoleRepositoryStatements.SELECT_BY_USER_ID,
+                UserRoleDAOStatements.SELECT_BY_USER_ID,
                 ps -> ps.setString(1, userId),
                 (rs, rowNum) -> new UserRole(
                         rs.getString("id"),
@@ -43,7 +43,7 @@ public class UserRoleRepository {
     public void deleteByUserId(final String userId) {
         try {
             final int updatedRows = this.jdbcTemplate.update(
-                    UserRoleRepositoryStatements.DELETE_BY_USER_ID,
+                    UserRoleDAOStatements.DELETE_BY_USER_ID,
                     ps -> ps.setString(1, userId)
             );
             if (updatedRows < 1) throw new UserUpdateException("Nenhuma informação de role a atualizar", "/users");
@@ -69,7 +69,7 @@ public class UserRoleRepository {
             final String valuesPattern = keys.stream().map(k -> "?").collect(Collectors.joining(","));
 
             final String sql = String.format(
-                    UserRoleRepositoryStatements.INSERT_NEW,
+                    UserRoleDAOStatements.INSERT_NEW,
                     keyPattern,
                     valuesPattern
             );
@@ -99,7 +99,7 @@ public class UserRoleRepository {
 
     public Set<UserRole> findAllByRoleId(final String roleId) {
         final List<UserRole> results = this.jdbcTemplate.query(
-                UserRoleRepositoryStatements.SELECT_BY_ROLE_ID,
+                UserRoleDAOStatements.SELECT_BY_ROLE_ID,
                 ps -> ps.setString(1, roleId),
                 (rs, rowNum) -> new UserRole(
                         rs.getString("id"),

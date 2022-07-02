@@ -5,7 +5,7 @@ import br.com.daniel.exception.UserNotFoundException;
 import br.com.daniel.exception.UserPrincipalException;
 import br.com.daniel.model.Response;
 import br.com.daniel.security.domain.UserPrincipal;
-import br.com.daniel.security.repository.UserPrincipalRepository;
+import br.com.daniel.security.dao.UserPrincipalDAO;
 import br.com.daniel.utils.Base64Utils;
 import br.com.daniel.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +19,10 @@ import java.util.Set;
 @Service
 public class UserService {
     private static final int THIRTY_MINUTES = 1800;
-    private final UserPrincipalRepository repository;
+    private final UserPrincipalDAO repository;
 
     @Autowired
-    public UserService(final UserPrincipalRepository repository) {
+    public UserService(final UserPrincipalDAO repository) {
         this.repository = repository;
     }
 

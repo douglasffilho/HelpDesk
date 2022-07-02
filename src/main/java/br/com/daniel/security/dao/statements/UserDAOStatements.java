@@ -1,6 +1,6 @@
-package br.com.daniel.security.repository.statements;
+package br.com.daniel.security.dao.statements;
 
-public interface UserRepositoryStatements {
+public interface UserDAOStatements {
     String SELECT_BY_EMAIL = "SELECT * FROM users WHERE email=?";
     String SELECT_BY_ID = "SELECT * FROM users WHERE id=?";
     String PAGINATE_ALL = "SELECT * FROM users LIMIT ? OFFSET ?";

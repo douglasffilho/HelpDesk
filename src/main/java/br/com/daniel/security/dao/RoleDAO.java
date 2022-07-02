@@ -1,7 +1,7 @@
-package br.com.daniel.security.repository;
+package br.com.daniel.security.dao;
 
 import br.com.daniel.security.domain.Role;
-import br.com.daniel.security.repository.statements.RoleRepositoryStatements;
+import br.com.daniel.security.dao.statements.RoleDAOStatements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -14,17 +14,17 @@ import java.util.stream.Collectors;
 
 
 @Repository
-public class RoleRepository {
+public class RoleDAO {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public RoleRepository(final JdbcTemplate jdbcTemplate) {
+    public RoleDAO(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public Set<Role> findRolesByIdIn(final Set<String> ids) {
         final String inclusionPattern = ids.stream().map(id -> "?").collect(Collectors.joining(","));
-        final String sql = String.format(RoleRepositoryStatements.SELECT_BY_ID, inclusionPattern);
+        final String sql = String.format(RoleDAOStatements.SELECT_BY_ID, inclusionPattern);
 
         final List<Role> results = this.jdbcTemplate.query(
                 sql,
@@ -49,7 +49,7 @@ public class RoleRepository {
 
     public Set<Role> findAllRoles() {
         final List<Role> results = this.jdbcTemplate.query(
-                RoleRepositoryStatements.SELECT_ALL,
+                RoleDAOStatements.SELECT_ALL,
                 (rs, rowNum) -> new Role(
                         rs.getString("id"),
                         rs.getDate("created_at"),
@@ -65,7 +65,7 @@ public class RoleRepository {
 
     public Role getAdminRole() {
         final List<Role> results = this.jdbcTemplate.query(
-                RoleRepositoryStatements.SELECT_ADMIN_ROLE,
+                RoleDAOStatements.SELECT_ADMIN_ROLE,
                 (rs, rowNum) -> new Role(
                         rs.getString("id"),
                         rs.getDate("created_at"),
