@@ -15,9 +15,9 @@ public class ServiceDeskController {
         return "service-desk/index";
     }
 
-    @GetMapping("/requests")
+    @GetMapping("/requests/my")
     @Authorized(roles = "CLIENT")
     public String requests() {
-        return "service-desk/requests";
+        return "service-desk/my";
     }
 }

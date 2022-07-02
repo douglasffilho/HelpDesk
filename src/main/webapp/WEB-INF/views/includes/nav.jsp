@@ -19,7 +19,7 @@
         } %>
         <% if (IS_CLIENT) {
             %>
-            <li><a href="/service-desk/requests">Chamados</a></li>
+            <li><a href="/service-desk/requests/my">Chamados</a></li>
             <%
         } %>
         <li><a href="/logout">Logout</a></li>

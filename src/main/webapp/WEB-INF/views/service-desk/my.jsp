@@ -8,6 +8,6 @@
 <body>
     <%@include file="../includes/nav.jsp"%>
     <%@include file="../includes/message.jsp"%>
-	<p>Chamados</p>
+	<p>Meus Chamados</p>
 </body>
 </html>
