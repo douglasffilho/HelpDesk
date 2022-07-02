@@ -188,10 +188,26 @@ class ServiceRequest {
     +getAnalyzedByBy() String
 }
 
+class ServiceRequestComment {
+    -String comment
+
+    +ServiceRequestComment(String createdBy, String comment)
+
+    +getComment() String
+    +getServiceRequestsId() String
+}
+
+
 Entity <|.. User
 Entity <|.. Role
 Entity <|.. UserRole
 Entity <|.. ServiceRequest
+Entity <|.. ServiceRequestComment
+
+UserRole "*" .. "*" User
+UserRole "*" .. "*" Role
+
 ServiceRequest .. ServiceRequestStatus
+ServiceRequestComment "*" .. "1" ServiceRequest
 
 ```
