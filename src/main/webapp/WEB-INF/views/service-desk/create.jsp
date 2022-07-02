@@ -20,7 +20,7 @@
         <form id="form" method="POST" action="/requests/create">
             <fieldset>
                 <label for="description">Descrição:</label>
-                <textarea id="description" name="description" ></textarea>
+                <textarea id="description" name="description" maxlength="2048" ></textarea>
             </fieldset>
         </form>
         <button type="button" onclick="submit()">Abrir</button>

@@ -4,6 +4,7 @@ import br.com.daniel.annotations.Authorized;
 import br.com.daniel.domain.ServiceRequest;
 import br.com.daniel.model.dto.ServiceRequestDTO;
 import br.com.daniel.security.domain.UserPrincipal;
+import br.com.daniel.service.ServiceRequestService;
 import br.com.daniel.utils.Principal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,11 @@ import static br.com.daniel.model.validation.ServiceRequestValidation.validate;
 @Controller
 @RequestMapping("/requests")
 public class ServiceDeskController {
+    private ServiceRequestService service;
+
+    public ServiceDeskController(final ServiceRequestService service) {
+        this.service = service;
+    }
 
     @GetMapping
     @Authorized(roles = "#canViewRequests")
@@ -48,7 +54,9 @@ public class ServiceDeskController {
 
         final ServiceRequest serviceRequest = map(dto, principal.getId());
 
-        session.setAttribute("message", "Chamado registrado com sucesso");
-        return "redirect:/requests";
+        this.service.create(serviceRequest);
+
+        session.setAttribute("message", "Chamado aberto com sucesso");
+        return "redirect:/";
     }
 }
