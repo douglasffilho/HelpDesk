@@ -4,7 +4,6 @@ import br.com.daniel.exception.UserUpdateException;
 import br.com.daniel.model.Response;
 import br.com.daniel.security.domain.User;
 import br.com.daniel.security.repository.statements.UserRepositoryStatements;
-import br.com.daniel.security.repository.statements.UserRoleRepositoryStatements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -26,26 +25,69 @@ public class UserRepository {
     }
 
     public Optional<User> findByEmail(final String email) {
-        final List<User> results = this.jdbcTemplate.query(UserRepositoryStatements.SELECT_BY_EMAIL, ps -> ps.setString(1, email), (rs, rowNum) -> new User(rs.getString("id"), rs.getDate("created_at"), rs.getString("updated_by"), rs.getDate("created_at"), rs.getString("created_by"), rs.getString("name"), rs.getString("email"), rs.getString("password")));
+        final List<User> results = this.jdbcTemplate.query(
+                UserRepositoryStatements.SELECT_BY_EMAIL,
+                ps -> ps.setString(1, email),
+                (rs, rowNum) -> new User(
+                        rs.getString("id"),
+                        rs.getDate("created_at"),
+                        rs.getString("updated_by"),
+                        rs.getDate("created_at"),
+                        rs.getString("created_by"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("password")
+                )
+        );
 
         if (results.isEmpty()) return Optional.empty();
         return Optional.ofNullable(results.get(0));
     }
 
     public Optional<User> findById(final String id) {
-        final List<User> results = this.jdbcTemplate.query(UserRepositoryStatements.SELECT_BY_ID, ps -> ps.setString(1, id), (rs, rowNum) -> new User(rs.getString("id"), rs.getDate("created_at"), rs.getString("updated_by"), rs.getDate("created_at"), rs.getString("created_by"), rs.getString("name"), rs.getString("email"), rs.getString("password")));
+        final List<User> results = this.jdbcTemplate.query(
+                UserRepositoryStatements.SELECT_BY_ID,
+                ps -> ps.setString(1, id),
+                (rs, rowNum) -> new User(
+                        rs.getString("id"),
+                        rs.getDate("created_at"),
+                        rs.getString("updated_by"),
+                        rs.getDate("created_at"),
+                        rs.getString("created_by"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("password")
+                )
+        );
 
         if (results.isEmpty()) return Optional.empty();
         return Optional.ofNullable(results.get(0));
     }
 
     public Response<User> findAll(final int page, final int size) {
-        final List<User> results = this.jdbcTemplate.query(UserRepositoryStatements.PAGINATE_ALL, ps -> {
-            ps.setInt(1, size);
-            ps.setInt(2, (page - 1) * size);
-        }, (rs, rowNum) -> new User(rs.getString("id"), rs.getDate("created_at"), rs.getString("updated_by"), rs.getDate("created_at"), rs.getString("created_by"), rs.getString("name"), rs.getString("email"), rs.getString("password")));
+        final List<User> results = this.jdbcTemplate.query(
+                UserRepositoryStatements.PAGINATE_ALL,
+                ps -> {
+                    ps.setInt(1, size);
+                    ps.setInt(2, (page - 1) * size);
+                }, (rs, rowNum) -> new User(
+                        rs.getString("id"),
+                        rs.getDate("created_at"),
+                        rs.getString("updated_by"),
+                        rs.getDate("created_at"),
+                        rs.getString("created_by"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("password")
+                )
+        );
 
-        final long total = this.jdbcTemplate.query(UserRepositoryStatements.COUNT_ALL, (rs, rowNum) -> rs.getLong(1)).stream().findFirst().orElse(0L);
+        final long total = this.jdbcTemplate.query(
+                        UserRepositoryStatements.COUNT_ALL,
+                        (rs, rowNum) -> rs.getLong(1)
+                ).stream()
+                .findFirst()
+                .orElse(0L);
 
         return new Response<User>().builder().results(results).page(page).size(size).total(total).build();
     }

@@ -129,7 +129,7 @@ public class UserController {
                         user.getCreatedAt(),
                         user.getCreatedBy(),
                         new Date(),
-                        loggedUser.getEmail(),
+                        loggedUser.getId(),
                         name,
                         email,
                         password
@@ -215,7 +215,7 @@ public class UserController {
 
         final UserPrincipal creatingUser = new UserPrincipal(
                 new User(
-                        loggedUser.getEmail(),
+                        loggedUser.getId(),
                         name,
                         email,
                         password
