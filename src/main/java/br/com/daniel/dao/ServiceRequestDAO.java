@@ -43,22 +43,6 @@ public class ServiceRequestDAO {
 
         final String sql = String.format(INSERT_NEW, insertPattern, valuesPattern);
 
-        final String valuesAsString = insertingData
-                .values()
-                .stream()
-                .map(v -> {
-                    if (v instanceof Date)
-                        return Timestamp.valueOf(LocalDateTime.ofInstant(
-                                ((Date) v).toInstant(),
-                                ZoneId.systemDefault())
-                        ).toString();
-
-                    return v.toString();
-                })
-                .map(v -> "'"+v+"'")
-                .collect(Collectors.joining(","));
-        final String rawSQL = String.format(INSERT_NEW, insertPattern, valuesAsString);
-
         try {
             final int updatedRows = this.jdbcTemplate.update(sql, ps -> {
                 for (int i = 0; i < insertingData.size(); i++) {

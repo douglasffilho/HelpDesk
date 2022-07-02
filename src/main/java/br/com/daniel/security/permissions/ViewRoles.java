@@ -34,11 +34,7 @@ public class ViewRoles {
     }
 
     public static boolean canViewRequests() {
-        return isHelper();
-    }
-
-    public static boolean canViewSelfRequests() {
-        return isClient() && !isAdmin();
+        return isHelper() || isClient();
     }
 
     public static boolean canCreateRequests() {

@@ -8,6 +8,6 @@ public interface ServiceRequestDAOStatements {
     String PAGINATE_ALL_WITH_STATUS = "SELECT * FROM service_requests WHERE status=? LIMIT ? OFFSET ?";
     String PAGINATE_ALL_FROM_USER = "SELECT * FROM service_requests WHERE created_by=? LIMIT ? OFFSET ?";
     String PAGINATE_ALL_FROM_USER_WITH_STATUS = "SELECT * FROM service_requests WHERE created_by=? AND status=? LIMIT ? OFFSET ?";
-    String PAGINATE_ALL_FOR_ANALYZER = "SELECT * FROM service_requests WHERE analyzed_by=? LIMIT ? OFFSET ?";
-    String PAGINATE_ALL_FOR_ANALYZER_WITH_STATUS = "SELECT * FROM service_requests WHERE analyzed_by=? AND status=? LIMIT ? OFFSET ?";
+    String PAGINATE_ALL_FOR_ANALYZER = "SELECT * FROM service_requests WHERE analyzed_by=? OR status='OPEN' LIMIT ? OFFSET ?";
+    String PAGINATE_ALL_FOR_ANALYZER_WITH_STATUS = "SELECT * FROM service_requests WHERE (analyzed_by=? AND status=?) OR status='OPEN' LIMIT ? OFFSET ?";
 }
