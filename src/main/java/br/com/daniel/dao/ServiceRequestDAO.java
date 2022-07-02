@@ -69,7 +69,7 @@ public class ServiceRequestDAO {
     public void update(ServiceRequest serviceRequest) {
         final Map<String, Object> updatingData = new HashMap<>();
         updatingData.put("description", serviceRequest.getDescription());
-        updatingData.put("status", serviceRequest.getStatus());
+        updatingData.put("status", serviceRequest.getStatus().name());
         updatingData.put("updated_by", serviceRequest.getUpdatedBy());
         updatingData.put("updated_at", serviceRequest.getUpdatedAt());
         updatingData.put("analyzed_by", serviceRequest.getAnalyzedBy());
@@ -88,22 +88,24 @@ public class ServiceRequestDAO {
                 for (int i = 0; i < updatingData.size(); i++) {
                     String key = keys.get(i);
                     Object value = updatingData.get(key);
-                    if (value instanceof Date)
-                        ps.setTimestamp(
-                                i + 1,
-                                Timestamp.valueOf(LocalDateTime.ofInstant(
-                                        ((Date) value).toInstant(),
-                                        ZoneId.systemDefault())
-                                )
+                    if (value instanceof Date) {
+                        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.ofInstant(
+                                ((Date) value).toInstant(),
+                                ZoneId.systemDefault())
                         );
-                    else
+                        ps.setTimestamp(i + 1, timestamp);
+                    } else
                         ps.setString(i + 1, (String) value);
                 }
                 ps.setString(updatingData.size() + 1, serviceRequest.getId());
             });
-            if (updatedRows < 1) throw new UpdateException("Nenhuma informação a atualizar", "/requests/my");
+            if (updatedRows < 1)
+                throw new UpdateException(
+                        "Nenhuma informação a atualizar",
+                        String.format("/requests/%s", serviceRequest.getId())
+                );
         } catch (Exception ex) {
-            throw new UpdateException(ex.getMessage(), "/");
+            throw new UpdateException(ex.getMessage(), String.format("/requests/%s", serviceRequest.getId()));
         }
     }
 
@@ -127,10 +129,10 @@ public class ServiceRequestDAO {
                     }
                 }, (rs, rowNum) -> new ServiceRequest(
                         rs.getString("id"),
-                        rs.getDate("created_at"),
-                        rs.getString("updated_by"),
-                        rs.getDate("created_at"),
+                        rs.getTimestamp("created_at"),
                         rs.getString("created_by"),
+                        rs.getTimestamp("updated_at"),
+                        rs.getString("updated_by"),
                         rs.getString("description"),
                         ServiceRequestStatus.valueOf(rs.getString("status")),
                         rs.getString("analyzed_by")
@@ -169,10 +171,10 @@ public class ServiceRequestDAO {
                     }
                 }, (rs, rowNum) -> new ServiceRequest(
                         rs.getString("id"),
-                        rs.getDate("created_at"),
-                        rs.getString("updated_by"),
-                        rs.getDate("created_at"),
+                        rs.getTimestamp("created_at"),
                         rs.getString("created_by"),
+                        rs.getTimestamp("updated_at"),
+                        rs.getString("updated_by"),
                         rs.getString("description"),
                         ServiceRequestStatus.valueOf(rs.getString("status")),
                         rs.getString("analyzed_by")
@@ -195,8 +197,14 @@ public class ServiceRequestDAO {
             final String status,
             final String analyzerId
     ) {
+        String SQL = PAGINATE_ALL_FOR_ANALYZER;
         final boolean hasStatusFilter = StringUtils.hasText(status);
-        final String SQL = hasStatusFilter ? PAGINATE_ALL_FOR_ANALYZER_WITH_STATUS : PAGINATE_ALL_FOR_ANALYZER;
+        if (hasStatusFilter) {
+            if (ServiceRequestStatus.valueOf(status) == ServiceRequestStatus.OPEN)
+                SQL = PAGINATE_ALL_FOR_ANALYZER_WITH_STATUS_OR_OPEN_ONES;
+            else
+                SQL = PAGINATE_ALL_FOR_ANALYZER_WITH_STATUS;
+        }
         final List<ServiceRequest> results = this.jdbcTemplate.query(
                 SQL,
                 ps -> {
@@ -211,10 +219,10 @@ public class ServiceRequestDAO {
                     }
                 }, (rs, rowNum) -> new ServiceRequest(
                         rs.getString("id"),
-                        rs.getDate("created_at"),
-                        rs.getString("updated_by"),
-                        rs.getDate("created_at"),
+                        rs.getTimestamp("created_at"),
                         rs.getString("created_by"),
+                        rs.getTimestamp("updated_at"),
+                        rs.getString("updated_by"),
                         rs.getString("description"),
                         ServiceRequestStatus.valueOf(rs.getString("status")),
                         rs.getString("analyzed_by")
@@ -238,10 +246,10 @@ public class ServiceRequestDAO {
                     ps.setString(1, id);
                 }, (rs, rowNum) -> new ServiceRequest(
                         rs.getString("id"),
-                        rs.getDate("created_at"),
-                        rs.getString("updated_by"),
-                        rs.getDate("created_at"),
+                        rs.getTimestamp("created_at"),
                         rs.getString("created_by"),
+                        rs.getTimestamp("updated_at"),
+                        rs.getString("updated_by"),
                         rs.getString("description"),
                         ServiceRequestStatus.valueOf(rs.getString("status")),
                         rs.getString("analyzed_by")

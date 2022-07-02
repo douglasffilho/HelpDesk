@@ -1,11 +1,27 @@
 package br.com.daniel.domain;
 
+import java.util.Date;
+
 public class ServiceRequestComment extends Entity {
     private final String comment;
     private final String serviceRequestsId;
 
     public ServiceRequestComment(final String createdBy, final String comment, final String serviceRequestsId) {
         super(createdBy);
+        this.comment = comment;
+        this.serviceRequestsId = serviceRequestsId;
+    }
+
+    public ServiceRequestComment(
+            final String id,
+            final Date createdAt,
+            final String createdBy,
+            final Date updatedAt,
+            final String updatedBy,
+            final String comment,
+            final String serviceRequestsId
+    ) {
+        super(id, createdAt, createdBy, updatedAt, updatedBy);
         this.comment = comment;
         this.serviceRequestsId = serviceRequestsId;
     }

@@ -1,16 +1,14 @@
 package br.com.daniel.model.decorator;
 
-import br.com.daniel.domain.ServiceRequestComment;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class ServiceRequestWithUsersDataAndComments extends ServiceRequestWithUsersData {
-    private final List<ServiceRequestComment> comments;
+    private final List<ServiceRequestCommentWithUsersData> comments;
 
     public ServiceRequestWithUsersDataAndComments(
             final ServiceRequestWithUsersData request,
-            final List<ServiceRequestComment> comments
+            final List<ServiceRequestCommentWithUsersData> comments
     ) {
         super(request, request.createdBy, request.analyzedBy);
 
@@ -21,7 +19,7 @@ public class ServiceRequestWithUsersDataAndComments extends ServiceRequestWithUs
         this(request, new ArrayList<>());
     }
 
-    public List<ServiceRequestComment> getComments() {
+    public List<ServiceRequestCommentWithUsersData> getComments() {
         return this.comments;
     }
 }

@@ -32,3 +32,16 @@ table td:last-child {
     display: flex;
     justify-content: space-between;
 }
+
+fieldset {
+    border: none;
+    display: flex;
+    flex-direction: column;
+}
+textarea {
+    min-width: 100%;
+    width: 100%;
+    max-width: 50rem;
+    max-height: 20.5rem;
+    min-height: 20.5rem;
+}

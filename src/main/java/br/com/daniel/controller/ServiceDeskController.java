@@ -5,15 +5,19 @@ import br.com.daniel.domain.ServiceRequest;
 import br.com.daniel.domain.ServiceRequestStatus;
 import br.com.daniel.exception.ForbiddenException;
 import br.com.daniel.model.Response;
+import br.com.daniel.model.decorator.ServiceRequestCommentWithUsersData;
 import br.com.daniel.model.decorator.ServiceRequestWithUsersData;
 import br.com.daniel.model.decorator.ServiceRequestWithUsersDataAndComments;
+import br.com.daniel.model.dto.ServiceRequestCommentDTO;
 import br.com.daniel.model.dto.ServiceRequestDTO;
+import br.com.daniel.model.validation.ServiceRequestCommentValidation;
 import br.com.daniel.security.domain.UserPrincipal;
 import br.com.daniel.security.permissions.ViewRoles;
 import br.com.daniel.service.ServiceRequestService;
 import br.com.daniel.utils.Principal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -43,6 +47,7 @@ public class ServiceDeskController {
     ) {
         if (page < 1) page = 1;
         if (size < 1) size = 10;
+        if (!StringUtils.hasText(status) && ViewRoles.isHelper()) status = "OPEN";
 
         final Response<ServiceRequestWithUsersData> result = this.service.findAll(page, size, status);
 
@@ -99,5 +104,21 @@ public class ServiceDeskController {
         model.addAttribute("request", request);
 
         return "service-desk/update";
+    }
+
+    @PostMapping("/{id}/comment")
+    public String addComment(
+            @PathVariable(name = "id") final String id,
+            @RequestParam(name = "close", required = false, defaultValue = "false") final boolean close,
+            @ModelAttribute final ServiceRequestCommentDTO dto,
+            final HttpSession session
+    ) {
+        ServiceRequestCommentValidation.validate(dto, id);
+
+        this.service.addComment(dto, id, close);
+
+        session.setAttribute("message", "Comentário adicionado!");
+
+        return String.format("redirect:/requests/%s", id);
     }
 }
