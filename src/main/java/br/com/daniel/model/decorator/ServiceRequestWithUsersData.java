@@ -5,8 +5,8 @@ import br.com.daniel.domain.ServiceRequestStatus;
 import br.com.daniel.security.domain.UserPrincipal;
 
 public class ServiceRequestWithUsersData extends ServiceRequest {
-    private final UserPrincipal createdBy;
-    private final UserPrincipal analyzedBy;
+    protected final UserPrincipal createdBy;
+    protected final UserPrincipal analyzedBy;
 
     public ServiceRequestWithUsersData(
             final ServiceRequest request,
@@ -32,6 +32,10 @@ public class ServiceRequestWithUsersData extends ServiceRequest {
         return this.createdBy.getName();
     }
 
+    public String getCreatedAtAsString() {
+        return this.getCreatedAt().toString();
+    }
+
     public String getAnalyzedByAsString() {
         return this.analyzedBy.getName();
     }
@@ -45,5 +49,9 @@ public class ServiceRequestWithUsersData extends ServiceRequest {
             return this.getDescription().substring(0, 9).concat("...");
 
         return this.getDescription();
+    }
+
+    public String getReadableId() {
+        return this.getId().split("-")[0].toUpperCase();
     }
 }

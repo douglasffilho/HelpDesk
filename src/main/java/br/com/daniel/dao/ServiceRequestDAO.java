@@ -230,4 +230,25 @@ public class ServiceRequestDAO {
 
         return new Response<ServiceRequest>().builder().results(results).page(page).size(size).total(total).build();
     }
+
+    public Optional<ServiceRequest> findById(final String id) {
+        final List<ServiceRequest> results = this.jdbcTemplate.query(
+                SELECT_BY_ID,
+                ps -> {
+                    ps.setString(1, id);
+                }, (rs, rowNum) -> new ServiceRequest(
+                        rs.getString("id"),
+                        rs.getDate("created_at"),
+                        rs.getString("updated_by"),
+                        rs.getDate("created_at"),
+                        rs.getString("created_by"),
+                        rs.getString("description"),
+                        ServiceRequestStatus.valueOf(rs.getString("status")),
+                        rs.getString("analyzed_by")
+                )
+        );
+
+        if (!results.isEmpty()) return Optional.ofNullable(results.get(0));
+        return Optional.empty();
+    }
 }

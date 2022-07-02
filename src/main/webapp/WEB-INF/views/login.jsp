@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>HelpDesk - Login</title>
+<script type="text/javascript" src="resources/scripts.js" ></script>
 <script>
     var submit = function() {
         var senhaElement = document.getElementById("senha");

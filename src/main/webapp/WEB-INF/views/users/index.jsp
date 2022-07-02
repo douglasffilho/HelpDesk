@@ -26,6 +26,8 @@
 <meta charset="UTF-8">
 <title>HelpDesk - Usuários</title>
 <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+<script type="text/javascript" src="resources/scripts.js" ></script>
+<link rel="stylesheet" type="text/css" href="resources/styles.css">
 <script>
     var excluir = function(userId, userEmail) {
         var confirmation = confirm("Deseja excluir o usuário " + userEmail + "?");
@@ -39,7 +41,6 @@
 </script>
 </head>
 <body>
-    <%@include file="../includes/common_styles.jsp"%>
     <%@include file="../includes/message.jsp"%>
     <%@include file="../includes/nav.jsp"%>
     <%String usersHeaderTitle="Usuários";%>
